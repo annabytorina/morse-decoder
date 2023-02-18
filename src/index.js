@@ -37,8 +37,28 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+function splitByLength(str, length) {
+    return str.match(RegExp(`.{1,${length}}`, 'gu'));
+}
+
 function decode(expr) {
-    // write your solution here
+    const n = 10;
+    let arr = [];
+    const splitStr = splitByLength(expr,n);
+
+    for (let i=0;i<splitStr.length;i++) {
+        splitStr[i] = splitStr[i].replace(/10/gi,'.');
+        splitStr[i] = splitStr[i].replace(/11/gi,'-');
+        splitStr[i] = splitStr[i].replace(/0/gi,'');
+        splitStr[i] = splitStr[i].replace('**********',' ');
+        for (key in MORSE_TABLE) {
+            if (splitStr[i] == key) {
+                splitStr[i] = MORSE_TABLE[key];
+            }
+        }
+    }
+
+    return splitStr.join('');
 }
 
 module.exports = {
